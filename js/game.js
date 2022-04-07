@@ -6,9 +6,27 @@ class Game {  //the general logic of the game here
     }
 
     start(){
+        // create and draw player
         this.player = new Player();  //property of current object can be accessed in other methods (this.player)
         this.player.domElement = this.create("player");  //create dom element with class "player"
         this.draw(this.player);
+
+
+        //create and draw an obstacle
+        this.obstacle = new Obstacle(); 
+        this.obstacle.domElement = this.create("obstacle");
+        this.draw(this.obstacle);
+
+        //move obstacle
+
+        setInterval ( () => { //with arrow function, it refers to the current object. can still access things outside of arrow function. With normal function, I can't (with the word function()).
+            
+            this.obstacle.moveDown();
+            this.draw(this.obstacle);
+         }, );   
+        
+        
+
     }
 
     movePlayer (direction){
@@ -39,6 +57,22 @@ class Player {
     moveRight(){
         this.positionX++;
     }
+
+}
+
+class Obstacle {
+    constructor() {
+        this.positionX = 50; //should be random
+        this.positionY = 100;
+        this.domElement = null; //we want to store it as a property
+    }
+
+    moveDown(){
+        this.positionY--;
+    }
+ 
+
+
 
 }
 

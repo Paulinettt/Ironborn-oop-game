@@ -12,3 +12,10 @@
     height: 20px; /*to do: remove*/
     width: 120px;
 }
+
+.obstacle {
+    position: absolute;
+    background-color: rgb(226, 14, 113);
+    height: 20px; /*to do: remove*/
+    width: 120px;
+}
