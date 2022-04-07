@@ -1,6 +1,8 @@
 class Game {  //the general logic of the game here
     constructor(create, draw){  //this is the createDomElement function.Just a name to describe argument I expect. Free to choose name here.
-        this.player = null;   //constructor not compulsory, good to see what we have?
+        this.time = 0;
+        this.player = null; 
+        this.obstacles = [];  
         this.create = create;
         this.draw = draw;
     }
@@ -12,67 +14,85 @@ class Game {  //the general logic of the game here
         this.draw(this.player);
 
 
-        //create and draw an obstacle
-        this.obstacle = new Obstacle(); 
-        this.obstacle.domElement = this.create("obstacle");
-        this.draw(this.obstacle);
 
         //move obstacle
 
         setInterval ( () => { //with arrow function, it refers to the current object. can still access things outside of arrow function. With normal function, I can't (with the word function()).
             
-            this.obstacle.moveDown();
-            this.draw(this.obstacle);
-         }, );   
-        
-        
+            //move obstacle every iteration of this interval
+            this.obstacles.forEach( (obstacle) => {
+                obstacle.moveDown();
+                this.draw(obstacle);
+                this.detectCollision(obstacle);
+            });
 
+            if (this.time % 60 === 0) {
+              // create and draw obstacle every 10 iteration
+              const newObstacle = new Obstacle();
+              newObstacle.domElement = this.create("obstacle");
+
+              this.obstacles.push(newObstacle);
+
+              
+              //this.draw(this.obstacle);
+            }
+
+            this.time++;
+
+         }, 100);   
+    
+}
+
+
+detectCollision(obstacle){
+    if (this.player.positionX < obstacle.positionX + obstacle.width &&
+        this.player.positionX + this.player.width > obstacle.positionX &&
+        this.player.positionY < obstacle.positionY + obstacle.height &&
+        this.player.height + this.player.positionY > obstacle.positionY) {
+            console.log("game over")
     }
+}
 
-    movePlayer (direction){
-        if (direction ==="left") {
-            this.player.moveLeft();
-        } else if (direction === "right"){
-            this.player.moveRight();
-        }
-        this.draw(this.player);
-    }  
+movePlayer(direction){
+    if(direction === "left"){
+        this.player.moveLeft();
+    } else if (direction === "right"){
+        this.player.moveRight();
+    }
+    this.draw(this.player);
+}
 }
 
 
 class Player {
-    constructor (){
+    constructor() {
         this.positionX = 50;
-        this.positionY = 50;
+        this.positionY = 0;
+        this.width = 10;
+        this.height = 10;
         this.domElement = null;
-        
     }
 
-    moveLeft(){
+    moveLeft() {
         this.positionX--;
-        
     }
 
-
-    moveRight(){
+    moveRight() {
         this.positionX++;
     }
-
 }
 
-class Obstacle {
-    constructor() {
-        this.positionX = 50; //should be random
-        this.positionY = 100;
-        this.domElement = null; //we want to store it as a property
-    }
 
-    moveDown(){
+class Obstacle {
+    constructor(){
+        this.positionX = 50;
+        this.positionY = 100;
+        this.width = 10;
+        this.height = 10;
+        this.domElement = null;
+    }
+    moveDown() {
         this.positionY--;
     }
- 
-
-
-
 }
 

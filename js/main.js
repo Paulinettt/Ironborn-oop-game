@@ -18,8 +18,11 @@ function createDomElement (className){ //create element and add it to the DOM
 }
 
 function drawDomElement(instance) { //will repaint something/modify the css. receives instance of a class ("player or...")
-   instance.domElement.style.left = instance.positionX + "%";
-   instance.domElement.style.bottom = instance.positionY + "%";
+    instance.domElement.style.width = instance.width + "vw";
+    instance.domElement.style.height = instance.height + "vh";
+
+    instance.domElement.style.left = instance.positionX + "vw";
+   instance.domElement.style.bottom = instance.positionY + "vh";
 
 }
 
