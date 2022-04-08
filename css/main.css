@@ -1,19 +1,16 @@
 #board {
     position: relative;
     background-color: rgb(161, 208, 202);
-    height: 100vh;  
+    height: 100vh;
+    background-image: url("https://cdnb.artstation.com/p/assets/images/images/023/696/835/large/zue-breton-decor-prairie-pour-monstre-contreplongee-05.jpg?1580067520");
 }
 
 .player {
     position: absolute;
     background-color: rgb(23, 162, 113);
-    height: 20px;
-    width: 120px;
 }
 
 .obstacle {
     position: absolute;
     background-color: rgb(226, 14, 71);
-    height: 20px;
-    width: 120px;
 }

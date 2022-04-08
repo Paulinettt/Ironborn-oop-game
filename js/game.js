@@ -2,6 +2,7 @@ class Game {  //the general logic of the game here
     constructor(create, draw){  //this is the createDomElement function.Just a name to describe argument I expect. Free to choose name here.
         this.time = 0;
         this.player = null; 
+        this.setIntervaId = null;
         this.obstacles = []; // array of instances of the class Obstacle 
         this.create = create;
         this.draw = draw;
@@ -15,9 +16,11 @@ class Game {  //the general logic of the game here
 
 
 
+
+
         //move obstacle
 
-        setInterval ( () => { //with arrow function, it refers to the current object. can still access things outside of arrow function. With normal function, I can't (with the word function()).
+           this.setIntervaId = setInterval ( () => { //with arrow function, it refers to the current object. can still access things outside of arrow function. With normal function, I can't (with the word function()).
             
             //move obstacle every iteration of this interval
             this.obstacles.forEach( (obstacle) => {
@@ -27,7 +30,7 @@ class Game {  //the general logic of the game here
                 this.detectObstacleOutside(obstacle);
             });
 
-            if (this.time % 60 === 0) {
+            if (this.time % 30 === 0) {
               // create and draw obstacle every 10 iteration
               const newObstacle = new Obstacle();
               newObstacle.domElement = this.create("obstacle"); 
@@ -38,7 +41,7 @@ class Game {  //the general logic of the game here
 
             this.time++;
 
-         }, 100);   
+         }, 50);   
     
 }
 
@@ -49,6 +52,7 @@ detectCollision(obstacle){
         this.player.positionY < obstacle.positionY + obstacle.height &&
         this.player.height + this.player.positionY > obstacle.positionY) {
             console.log("game over")
+            //clearInterval(this.intervalId)
     }
 }
 
@@ -56,7 +60,7 @@ detectObstacleOutside (obstacle) {   //obstacle is an instance of the class Obst
      if (obstacle.positionY < 0 ){
          //obstacle to remove in this.obstacles
          this.obstacles.shift() //remove from array
-         obstacle.domElement.remove() //remove from the dom
+         obstacle.domElement.remove() //remove from the dom (not "this.domElement" because domElement not a proprety of my current class, but the obstacle class)
      }
 
 }
@@ -93,10 +97,13 @@ class Player {
 
 class Obstacle {
     constructor(){
-        this.positionX = (Math.random() * 100);
-        this.positionY = 100;
+        
+        //this.positionX = (Math.random() * 100);
         this.width = 10;
         this.height = 10;
+        this.positionX = Math.floor(Math.random() * (100 - this.width + 1 )); //random between 0 and (100-this.width)
+        this.positionY = 100;
+
         this.domElement = null; //store the newElm
     }
     moveDown() {
