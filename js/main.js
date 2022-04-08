@@ -13,11 +13,11 @@ function createDomElement (className){ //create element and add it to the DOM
 
     board.appendChild(newElm);
 
-    return newElm;
+    return newElm; //we return to store this somewhere else
     
 }
 
-function drawDomElement(instance) { //will repaint something/modify the css. receives instance of a class ("player or...")
+function drawDomElement(instance) { //will repaint something/modify the css. receives instance of a class ("player or obstacle")
     instance.domElement.style.width = instance.width + "vw";
     instance.domElement.style.height = instance.height + "vh";
 
